@@ -58,6 +58,9 @@ body {
     "barchart2"
     "barchart3"; */
 /* }  */
+.prediction-button-container {
+  margin-left: 20px;
+}
 .instance-title-container {
   margin-left: 20px;
   font-size: 20px;
@@ -70,12 +73,16 @@ body {
   font-family: Helvetica;
 }
 .confMat-title-container {
-  margin-top: 20px;
   font-size: 20px;
   color: #555;
   font-family: Helvetica;
 }
 .tsne-title-container {
+  font-size: 20px;
+  color: #555;
+  font-family: Helvetica;
+}
+.counterfactual-title-container {
   font-size: 20px;
   color: #555;
   font-family: Helvetica;

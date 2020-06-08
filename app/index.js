@@ -141,7 +141,7 @@ class App extends Component {
           style={{
             display: "grid",
             gridGap: "5px",
-            gridTemplateRows: "60% 40%"
+            gridTemplateRows: "70% 30%"
           }}
         >
           <div
@@ -219,7 +219,7 @@ class App extends Component {
                               xName={xName}
                               yName={yName[i]}
                               legendLabel={yLabel[i]}
-                              color={colors[i]}
+                              color={colors[0]}
                               onChangeValue={updateBarchartValue}
                               onChangeValueEnd={updateBarchartValueEnd}
                             />
@@ -284,11 +284,29 @@ class App extends Component {
                 </div>
               </div>
             </div>
+
             <div
-              className="tsne-view-container"
-              style={{ border: "solid #ccc 1px" }}
+              className="tsne-counterfactual-container"
+              style={{
+                display: "grid",
+                gridGap: "5px",
+                gridTemplateRows: "70% auto"
+              }}
             >
-              <div className="tsne-title-container">{"2D projection"}</div>
+              <div
+                className="tsne-view-container"
+                style={{ border: "solid #ccc 1px" }}
+              >
+                <div className="tsne-title-container">{"2D projection"}</div>
+              </div>
+              <div
+                className="counterfactual-view-container"
+                style={{ border: "solid #ccc 1px" }}
+              >
+                <div className="counterfactual-title-container">
+                  {"Counterfactuals"}
+                </div>
+              </div>
             </div>
           </div>
 

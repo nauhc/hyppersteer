@@ -17,7 +17,7 @@ const defaultProps = {
   data: [],
   xName: null,
   yName: null,
-  color: "#8884d8",
+  color: "#83a6ed",
   bgColor: "#ddd"
 };
 
