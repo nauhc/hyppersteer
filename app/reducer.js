@@ -14,7 +14,7 @@ const DEFAULT_STATE = {
   updatedData: [],
   currentUpdatedData: [],
   totalInstanceCnt: 1,
-  selectedInstanceId: 7,
+  selectedInstanceId: 0,
   predictionResult: [],
   xName: null,
   yName: [],
@@ -36,8 +36,8 @@ const handleLoadData = (state, { payload }) => {
     yLabel: payload.yLabel
   };
 };
-const handleUpdateLinechartValue = (state, { payload }) => {
-  console.log("handleUpdateLinechartValue", payload);
+const handleUpdateBarchartValue = (state, { payload }) => {
+  console.log("handleUpdateBarchartValue", payload);
 
   const currentUpdatedData = state.updatedData.map(o => {
     if (o[payload.xName] === payload.selectedX) {
@@ -54,7 +54,7 @@ const handleUpdateLinechartValue = (state, { payload }) => {
   };
 };
 
-const handleUpdateLinechartValueEnd = (state, { payload }) => {
+const handleUpdateBarchartValueEnd = (state, { payload }) => {
   return {
     ...state,
     updatedData: JSON.parse(JSON.stringify(state.currentUpdatedData))
@@ -83,8 +83,8 @@ const handleUpdateInstanceId = (state, { payload }) => {
 export default handleActions(
   {
     [LOAD_DATA]: handleLoadData,
-    [UPDATE_BARCHART_VALUE]: handleUpdateLinechartValue,
-    [UPDATE_BARCHART_VALUE_END]: handleUpdateLinechartValueEnd,
+    [UPDATE_BARCHART_VALUE]: handleUpdateBarchartValue,
+    [UPDATE_BARCHART_VALUE_END]: handleUpdateBarchartValueEnd,
     [UPDATE_INSTANCE_ID]: handleUpdateInstanceId
     // [CLICK_PREDICTION_BUTTON]: handleClickPredictionButton // async function
   },
