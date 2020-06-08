@@ -1,8 +1,8 @@
 import { handleActions } from "redux-actions";
 import {
   LOAD_DATA,
-  UPDATE_LINECHART_VALUE,
-  UPDATE_LINECHART_VALUE_END,
+  UPDATE_BARCHART_VALUE,
+  UPDATE_BARCHART_VALUE_END,
   UPDATE_INSTANCE_ID,
   CLICK_PREDICTION_BUTTON
 } from "./actions";
@@ -83,8 +83,8 @@ const handleUpdateInstanceId = (state, { payload }) => {
 export default handleActions(
   {
     [LOAD_DATA]: handleLoadData,
-    [UPDATE_LINECHART_VALUE]: handleUpdateLinechartValue,
-    [UPDATE_LINECHART_VALUE_END]: handleUpdateLinechartValueEnd,
+    [UPDATE_BARCHART_VALUE]: handleUpdateLinechartValue,
+    [UPDATE_BARCHART_VALUE_END]: handleUpdateLinechartValueEnd,
     [UPDATE_INSTANCE_ID]: handleUpdateInstanceId
     // [CLICK_PREDICTION_BUTTON]: handleClickPredictionButton // async function
   },

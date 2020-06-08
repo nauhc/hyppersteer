@@ -11,7 +11,7 @@ import {
 } from "recharts";
 
 const defaultProps = {
-  id: "linechart",
+  id: "barchart",
   width: null,
   height: null,
   data: [],

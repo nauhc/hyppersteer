@@ -43,20 +43,20 @@ body {
   display: grid;
   grid-template-columns: 70% 30%;
   grid-template-areas:
-    "linecharts-view prediction-view"
-    "linecharts-view prediction-view";
+    "barcharts-view prediction-view"
+    "barcharts-view prediction-view";
 }
-.linecharts-container {
+.barcharts-container {
   margin: 10px;
   padding: 10px;
-  grid-area: linecharts-view;
+  grid-area: barcharts-view;
   display: grid;
   grid-template-rows: 10% 30% 30%;
   grid-template-areas:
     "selector"
-    "linechart1"
-    "linechart2"
-    "linechart3";
+    "barchart1"
+    "barchart2"
+    "barchart3";
 }
 .instance-selector-container {
   position: relative;
@@ -64,14 +64,14 @@ body {
 
   grid-area: selector;
 }
-.linechart1 {
-  grid-area: linechart1;
+.barchart1 {
+  grid-area: barchart1;
 }
-.linechart2 {
-  grid-area: linechart2;
+.barchart2 {
+  grid-area: barchart2;
 }
-.linechart3 {
-  grid-area: linechart3;
+.barchart3 {
+  grid-area: barchart3;
 }
 .prediction-view-container {
   margin: 10px;

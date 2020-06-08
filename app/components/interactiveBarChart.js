@@ -14,7 +14,7 @@ import { AutoSizer } from "react-virtualized/dist/commonjs/AutoSizer";
 import { scaleLinear } from "d3-scale";
 
 const defaultProps = {
-  id: "linechart",
+  id: "barchart",
   width: null,
   height: null,
   data: [],

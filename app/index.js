@@ -16,8 +16,8 @@ import Select from "@material-ui/core/Select";
 
 import {
   loadData,
-  updateLinechartValue,
-  updateLinechartValueEnd,
+  updateBarchartValue,
+  updateBarchartValueEnd,
   updateInstanceId,
   clickPredictionButton,
   updateAndFetch
@@ -43,8 +43,8 @@ const colors = [
 //  ----  Redux Utility Functions   ---- //
 const mapDispatchToProps = {
   loadData,
-  updateLinechartValue,
-  updateLinechartValueEnd,
+  updateBarchartValue,
+  updateBarchartValueEnd,
   updateInstanceId,
   clickPredictionButton,
   updateAndFetch
@@ -107,8 +107,8 @@ class App extends Component {
       yName,
       yLabel,
       totalInstanceCnt,
-      updateLinechartValue,
-      updateLinechartValueEnd,
+      updateBarchartValue,
+      updateBarchartValueEnd,
       selectedInstanceId,
       updateInstanceId,
       clickPredictionButton
@@ -132,7 +132,7 @@ class App extends Component {
           </div>
         </div>
         <div className="views-container">
-          <div className="linecharts-container">
+          <div className="barcharts-container">
             <div className="instance-selector-container">
               <InputLabel id="select-text">Patient</InputLabel>
               <Select
@@ -152,12 +152,12 @@ class App extends Component {
             </div>
             {arrInRange(3).map(i => {
               return (
-                <div key={`div${i}`} className={`linechart${i}`}>
+                <div key={`div${i}`} className={`barchart${i}`}>
                   <AutoSizer key={`autosizer-${i}`}>
                     {({ height, width }) => (
                       <InteractiveBarChart
-                        key={`ilinechart${i}`}
-                        id={`ilinechart${i}`}
+                        key={`ibarchart${i}`}
+                        id={`ibarchart${i}`}
                         width={width}
                         height={height}
                         data={currentUpdatedData}
@@ -165,8 +165,8 @@ class App extends Component {
                         yName={yName[i]}
                         legendLabel={yLabel[i]}
                         color={colors[i]}
-                        onChangeValue={updateLinechartValue}
-                        onChangeValueEnd={updateLinechartValueEnd}
+                        onChangeValue={updateBarchartValue}
+                        onChangeValueEnd={updateBarchartValueEnd}
                       />
                     )}
                   </AutoSizer>
