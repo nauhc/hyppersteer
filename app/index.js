@@ -77,7 +77,8 @@ class App extends Component {
     updateAndFetch(
       JSON.stringify({
         instanceId: selectedInstanceId,
-        featureIdx: [2, 10, 28],
+        // featureIdx: [1, 8, 2],
+        featureIdx: [1, 30, 8, 2, 5, 21],
         updatedData: currentUpdatedData
       })
     );
@@ -91,7 +92,8 @@ class App extends Component {
     } = this.props;
     const data = JSON.stringify({
       instanceId: selectedInstanceId,
-      featureIdx: [2, 10, 28],
+      // featureIdx: [1, 8, 2],
+      featureIdx: [1, 30, 8, 2, 5, 21],
       updatedData: currentUpdatedData
     });
     updateAndFetch(data);
@@ -124,6 +126,9 @@ class App extends Component {
       return null;
     }
 
+    const featureCnt = yLabel.length;
+    const featureBarchartGridDivision = "1fr ".repeat(featureCnt);
+
     return (
       <div className="App">
         <div className="header-container">
@@ -131,71 +136,170 @@ class App extends Component {
             {"Sequence Outcome Prediction with RNN"}
           </div>
         </div>
-        <div className="views-container">
-          <div className="barcharts-container">
-            <div className="instance-selector-container">
-              <InputLabel id="select-text">Patient</InputLabel>
-              <Select
-                labelId="instance-select-label"
-                id="instance-simple-select"
-                value={selectedInstanceId}
-                onChange={updateInstanceId}
+        <div
+          className="views-container"
+          style={{
+            display: "grid",
+            gridGap: "5px",
+            gridTemplateRows: "60% 40%"
+          }}
+        >
+          <div
+            className="instance-prediction-tsne-container"
+            style={{
+              display: "grid",
+              gridGap: "10px",
+              gridTemplateColumns: "auto 700px"
+            }}
+          >
+            <div
+              className="instance-prediction"
+              style={{
+                display: "grid",
+                gridGap: "5px",
+                gridTemplateColumns: "80% 20%"
+              }}
+            >
+              <div
+                className="instances"
+                style={{
+                  display: "grid",
+                  gridGap: "5px",
+                  gridTemplateRows: "50px auto",
+                  border: "solid #ccc 1px"
+                }}
               >
-                {arrInRange(totalInstanceCnt).map(i => {
-                  return (
-                    <MenuItem key={i} value={i}>
-                      {i}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </div>
-            {arrInRange(3).map(i => {
-              return (
-                <div key={`div${i}`} className={`barchart${i}`}>
-                  <AutoSizer key={`autosizer-${i}`}>
-                    {({ height, width }) => (
-                      <InteractiveBarChart
-                        key={`ibarchart${i}`}
-                        id={`ibarchart${i}`}
-                        width={width}
-                        height={height}
-                        data={currentUpdatedData}
-                        xName={xName}
-                        yName={yName[i]}
-                        legendLabel={yLabel[i]}
-                        color={colors[i]}
-                        onChangeValue={updateBarchartValue}
-                        onChangeValueEnd={updateBarchartValueEnd}
-                      />
-                    )}
-                  </AutoSizer>
+                <div
+                  className="title-n-selector-container"
+                  style={{
+                    display: "grid",
+                    gridGap: "5px",
+                    gridTemplateColumns: "20% auto"
+                  }}
+                >
+                  <div className="instance-title-container">
+                    {"Instance Features"}
+                  </div>
+                  <div className="instance-selector-container">
+                    <InputLabel id="select-text">Patient</InputLabel>
+                    <Select
+                      labelId="instance-select-label"
+                      id="instance-simple-select"
+                      value={selectedInstanceId}
+                      onChange={updateInstanceId}
+                    >
+                      {arrInRange(totalInstanceCnt).map(i => {
+                        return (
+                          <MenuItem key={i} value={i}>
+                            {i}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-          <div className="prediction-view-container">
-            <div className="prediction-button-container">
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={this.handleClickPredictionButton}
+                <div
+                  className="barcharts-container"
+                  style={{
+                    display: "grid",
+                    gridTemplateRows: featureBarchartGridDivision
+                  }}
+                >
+                  {arrInRange(yLabel.length).map(i => {
+                    return (
+                      <div key={`div${i}`} className={`barchart${i}`}>
+                        <AutoSizer key={`autosizer-${i}`}>
+                          {({ height, width }) => (
+                            <InteractiveBarChart
+                              key={`ibarchart${i}`}
+                              id={`ibarchart${i}`}
+                              width={width}
+                              height={height}
+                              data={currentUpdatedData}
+                              xName={xName}
+                              yName={yName[i]}
+                              legendLabel={yLabel[i]}
+                              color={colors[i]}
+                              onChangeValue={updateBarchartValue}
+                              onChangeValueEnd={updateBarchartValueEnd}
+                            />
+                          )}
+                        </AutoSizer>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div
+                className="prediction"
+                style={{
+                  display: "grid",
+                  gridGap: "5px",
+                  gridTemplateRows: "1fr 1fr"
+                }}
               >
-                Prediction
-              </Button>
+                <div
+                  className="prediction-certainty"
+                  style={{
+                    display: "grid",
+                    gridGap: "5px",
+                    gridTemplateRows: "50px 15% auto",
+                    border: "solid #ccc 1px"
+                  }}
+                >
+                  <div className="certainty-title-container">
+                    {"Prediction Certainty"}
+                  </div>
+                  <div className="prediction-button-container">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleClickPredictionButton}
+                    >
+                      Prediction
+                    </Button>
+                  </div>
+                  <div className="prediction-barchart-container">
+                    <AutoSizer>
+                      {({ height, width }) => (
+                        <BackgroundBarChart
+                          width={width}
+                          height={height}
+                          data={predictionResult}
+                          xName={"class"}
+                          yName={["original", "predict"]}
+                        />
+                      )}
+                    </AutoSizer>
+                  </div>
+                </div>
+
+                <div
+                  className="prediction-confusionMatix"
+                  style={{ border: "solid #ccc 1px" }}
+                >
+                  <div className="confMat-title-container">
+                    {"Confusion Matrix"}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="prediction-barchart-container">
-              <AutoSizer>
-                {({ height, width }) => (
-                  <BackgroundBarChart
-                    width={width}
-                    height={height}
-                    data={predictionResult}
-                    xName={"class"}
-                    yName={["original", "predict"]}
-                  />
-                )}
-              </AutoSizer>
+            <div
+              className="tsne-view-container"
+              style={{ border: "solid #ccc 1px" }}
+            >
+              <div className="tsne-title-container">{"2D projection"}</div>
+            </div>
+          </div>
+
+          <div
+            className="partial-dependence-view-container"
+            style={{
+              border: "solid #ccc 1px"
+            }}
+          >
+            <div className="SPD-title-container">
+              {"Sequence Partial Dependence"}
             </div>
           </div>
         </div>

@@ -16,7 +16,7 @@ body {
   height: 100%;
   display: grid;
   grid-gap: 5px;
-  grid-template-rows: 5% auto;
+  grid-template-rows: 50px auto;
   grid-template-areas:
     "header"
     "views";
@@ -40,54 +40,50 @@ body {
   margin: 10px;
   padding: 10px;
   grid-area: views;
-  display: grid;
+  /*display: grid;
   grid-template-columns: 70% 30%;
   grid-template-areas:
     "barcharts-view prediction-view"
-    "barcharts-view prediction-view";
+    "barcharts-view prediction-view"; */
 }
-.barcharts-container {
+/* .barcharts-container {
   margin: 10px;
   padding: 10px;
   grid-area: barcharts-view;
-  display: grid;
+  /* display: grid;
   grid-template-rows: 10% 30% 30%;
   grid-template-areas:
     "selector"
     "barchart1"
     "barchart2"
-    "barchart3";
+    "barchart3"; */
+/* }  */
+.instance-title-container {
+  margin-left: 20px;
+  font-size: 20px;
+  color: #555;
+  font-family: Helvetica;
 }
-.instance-selector-container {
-  position: relative;
-  left: 80px;
-
-  grid-area: selector;
+.certainty-title-container {
+  font-size: 20px;
+  color: #555;
+  font-family: Helvetica;
 }
-.barchart1 {
-  grid-area: barchart1;
+.confMat-title-container {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #555;
+  font-family: Helvetica;
 }
-.barchart2 {
-  grid-area: barchart2;
+.tsne-title-container {
+  font-size: 20px;
+  color: #555;
+  font-family: Helvetica;
 }
-.barchart3 {
-  grid-area: barchart3;
-}
-.prediction-view-container {
-  margin: 10px;
-  padding: 10px;
-  grid-area: prediction-view;
-  display: grid;
-  grid-template-rows: 5% auto;
-  grid-template-areas:
-    "prediction-button"
-    "prediction-barchart";
-}
-.prediction-button-container {
-  grid-area: prediction-button;
-}
-.prediction-barchart-container {
-  margin: 10px;
-  padding: 20px;
-  grid-area: prediction-barchart;
+.SPD-title-container {
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 20px;
+  color: #555;
+  font-family: Helvetica;
 }

@@ -41,8 +41,11 @@ def index():
 @app.route("/predict", methods=["POST"])
 def predict():
 
-    data10 = load(filepath + 'random10_data.npy')
-    labels10 = load(filepath + 'random10_labels.npy')
+    # data10 = load(filepath + 'random10_data.npy')
+    # labels10 = load(filepath + 'random10_labels.npy')
+    data10 = load(filepath + 'data_6712.npy')
+    labels10 = load(filepath + 'labels_6712.npy')
+    print('data10', data10[0, :,  [1, 30, 8, 2, 5, 21]])
 
     # get updated input from frontend
     d = request.get_json()
@@ -71,7 +74,7 @@ def predict():
         'xName': 'time',
         'yName': [str(i) for i in featureIdx],
         'yLabel': [FEATURES[i] for i in featureIdx],
-        'instanceCnt': 10,
+        'instanceCnt': 7,
         'result':
             [{
                 'class': 'dead',
