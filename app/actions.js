@@ -5,8 +5,10 @@ import { createAction } from "redux-actions";
 export const LOAD_DATA = "LOAD_DATA";
 export const UPDATE_BARCHART_VALUE = "UPDATE_BARCHART_VALUE";
 export const UPDATE_BARCHART_VALUE_END = "UPDATE_BARCHART_VALUE_END";
-export const CLICK_PREDICTION_BUTTON = "CLICK_PREDICTION_BUTTON";
+// export const CLICK_PREDICTION_BUTTON = "CLICK_PREDICTION_BUTTON";
 export const UPDATE_INSTANCE_ID = "UPDATE_INSTANCE_ID";
+export const UPDATE_COUNTERFACTUAL_SWITCH_VALUE =
+  "UPDATE_COUNTERFACTUAL_SWITCH_VALUE";
 
 // ACTION
 // load data for compnentDidMount.
@@ -14,8 +16,11 @@ export const UPDATE_INSTANCE_ID = "UPDATE_INSTANCE_ID";
 export const loadData = createAction(LOAD_DATA);
 export const updateBarchartValue = createAction(UPDATE_BARCHART_VALUE);
 export const updateBarchartValueEnd = createAction(UPDATE_BARCHART_VALUE_END);
-export const clickPredictionButton = createAction(CLICK_PREDICTION_BUTTON);
+// export const clickPredictionButton = createAction(CLICK_PREDICTION_BUTTON);
 export const updateInstanceId = createAction(UPDATE_INSTANCE_ID);
+export const updateCounterfactualSwitchValue = createAction(
+  UPDATE_COUNTERFACTUAL_SWITCH_VALUE
+);
 
 export const updateAndFetch = data => {
   return dispatch => {

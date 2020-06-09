@@ -4,7 +4,7 @@ import {
   UPDATE_BARCHART_VALUE,
   UPDATE_BARCHART_VALUE_END,
   UPDATE_INSTANCE_ID,
-  CLICK_PREDICTION_BUTTON
+  UPDATE_COUNTERFACTUAL_SWITCH_VALUE
 } from "./actions";
 
 // ----  Reducers ---- // (reduce to new state)
@@ -13,6 +13,8 @@ const DEFAULT_STATE = {
   data: [],
   updatedData: [],
   currentUpdatedData: [],
+  showCounterfactual: false,
+  counterfactual: [],
   totalInstanceCnt: 1,
   selectedInstanceId: 0,
   predictionResult: [],
@@ -28,6 +30,7 @@ const handleLoadData = (state, { payload }) => {
     ...state,
     data: payload.original,
     updatedData: payload.updated,
+    counterfactual: payload.counterfactual,
     currentUpdatedData: payload.updated,
     predictionResult: payload.result,
     totalInstanceCnt: payload.instanceCnt,
@@ -79,14 +82,23 @@ const handleUpdateInstanceId = (state, { payload }) => {
   };
 };
 
+const handleUpdateCounterfactualSwitchValue = (state, { payload }) => {
+  // console.log("handleUpdateCounterfactualSwitchValue", payload);
+  // this.state.updatedData;
+  return {
+    ...state,
+    showCounterfactual: payload
+  };
+};
+
 // map action ID to functions
 export default handleActions(
   {
     [LOAD_DATA]: handleLoadData,
     [UPDATE_BARCHART_VALUE]: handleUpdateBarchartValue,
     [UPDATE_BARCHART_VALUE_END]: handleUpdateBarchartValueEnd,
-    [UPDATE_INSTANCE_ID]: handleUpdateInstanceId
-    // [CLICK_PREDICTION_BUTTON]: handleClickPredictionButton // async function
+    [UPDATE_INSTANCE_ID]: handleUpdateInstanceId,
+    [UPDATE_COUNTERFACTUAL_SWITCH_VALUE]: handleUpdateCounterfactualSwitchValue
   },
   DEFAULT_STATE // initial state
 );

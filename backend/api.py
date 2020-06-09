@@ -45,14 +45,16 @@ def predict():
     # labels10 = load(filepath + 'random10_labels.npy')
     data10 = load(filepath + 'data_6712.npy')
     labels10 = load(filepath + 'labels_6712.npy')
-    print('data10', data10[0, :,  [1, 30, 8, 2, 5, 21]])
+    # print('data10', data10[0, :,  [1, 30, 8, 2, 5, 21]])
 
     # get updated input from frontend
     d = request.get_json()
     instanceId = d['instanceId']
     featureIdx = d['featureIdx']
 
-    input = from_numpy(data10[instanceId])
+    # input = from_numpy(data10[instanceId])
+    input = from_numpy(data10[0])
+    counterfactual = from_numpy(data10[3])
     # print(numpyData2Json(input.numpy(), featureIdx))
 
     model = biLSTM_inference(filepath, time, best_epoch, best_accuracy)
@@ -87,6 +89,7 @@ def predict():
                 'predict':round(updatedResult[0][1], 4)
             }],
         'original': numpyData2Json(input.numpy(), featureIdx),
+        'counterfactual': numpyData2Json(counterfactual.numpy(), featureIdx),
         'updated': numpyData2Json(updatedInput, featureIdx)
     }
     return jsonify(obj)

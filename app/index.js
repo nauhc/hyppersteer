@@ -13,6 +13,8 @@ import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 import {
   loadData,
@@ -20,7 +22,8 @@ import {
   updateBarchartValueEnd,
   updateInstanceId,
   clickPredictionButton,
-  updateAndFetch
+  updateAndFetch,
+  updateCounterfactualSwitchValue
 } from "./actions";
 // import { getData, getMouseOvered, getHighlighted } from "./selectors/base";
 import * as utils from "./utils";
@@ -47,13 +50,16 @@ const mapDispatchToProps = {
   updateBarchartValueEnd,
   updateInstanceId,
   clickPredictionButton,
-  updateAndFetch
+  updateAndFetch,
+  updateCounterfactualSwitchValue
 };
 
 const mapStateToProps = state => ({
   data: state.data,
   updatedData: state.updatedData,
   currentUpdatedData: state.currentUpdatedData,
+  showCounterfactual: state.showCounterfactual,
+  counterfactual: state.counterfactual,
   predictionResult: state.predictionResult,
   xName: state.xName,
   yName: state.yName,
@@ -104,6 +110,9 @@ class App extends Component {
       data,
       updatedData,
       currentUpdatedData,
+      showCounterfactual,
+      updateCounterfactualSwitchValue,
+      counterfactual,
       predictionResult,
       xName,
       yName,
@@ -119,6 +128,7 @@ class App extends Component {
     if (
       !data ||
       data.length === 0 ||
+      counterfactual.length === 0 ||
       !currentUpdatedData ||
       currentUpdatedData.length === 0 ||
       predictionResult.length === 0
@@ -174,11 +184,28 @@ class App extends Component {
                   style={{
                     display: "grid",
                     gridGap: "5px",
-                    gridTemplateColumns: "20% auto"
+                    gridTemplateColumns: "20% 50% auto"
                   }}
                 >
                   <div className="instance-title-container">
                     {"Instance Features"}
+                  </div>
+                  <div className="switch-container">
+                    <div className="counterfactual-switch">
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={showCounterfactual}
+                            onChange={(e, v) =>
+                              updateCounterfactualSwitchValue(v)
+                            }
+                            name="counterfactualSwitch"
+                            color="primary"
+                          />
+                        }
+                        label=" Show Counterfactual"
+                      />
+                    </div>
                   </div>
                   <div className="instance-selector-container">
                     <InputLabel id="select-text">Patient</InputLabel>
@@ -215,11 +242,15 @@ class App extends Component {
                               id={`ibarchart${i}`}
                               width={width}
                               height={height}
-                              data={currentUpdatedData}
+                              data={
+                                showCounterfactual
+                                  ? counterfactual
+                                  : currentUpdatedData
+                              }
                               xName={xName}
                               yName={yName[i]}
                               legendLabel={yLabel[i]}
-                              color={colors[0]}
+                              color={showCounterfactual ? colors[1] : colors[0]}
                               onChangeValue={updateBarchartValue}
                               onChangeValueEnd={updateBarchartValueEnd}
                             />
@@ -253,8 +284,9 @@ class App extends Component {
                   <div className="prediction-button-container">
                     <Button
                       variant="contained"
-                      color="primary"
+                      color={"primary"}
                       onClick={this.handleClickPredictionButton}
+                      disabled={showCounterfactual}
                     >
                       Prediction
                     </Button>
@@ -297,7 +329,7 @@ class App extends Component {
                 className="tsne-view-container"
                 style={{ border: "solid #ccc 1px" }}
               >
-                <div className="tsne-title-container">{"2D projection"}</div>
+                <div className="tsne-title-container">{"2D Projection"}</div>
               </div>
               <div
                 className="counterfactual-view-container"
