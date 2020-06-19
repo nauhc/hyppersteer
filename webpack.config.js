@@ -16,6 +16,7 @@ module.exports = {
     path: PATHS.dist,
     filename: "bundle.js"
   },
+  devtool: "source-map",
   devServer: {
     // contentBase: __dirname,
     hot: true, // hot module replacement while application running

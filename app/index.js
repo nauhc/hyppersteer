@@ -15,14 +15,15 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-
 import {
   loadData,
+  loadTSNE,
   updateBarchartValue,
   updateBarchartValueEnd,
   updateInstanceId,
   clickPredictionButton,
-  updateAndFetch,
+  updateAndFetchData,
+  updateAndFetchTSNE,
   updateCounterfactualSwitchValue
 } from "./actions";
 // import { getData, getMouseOvered, getHighlighted } from "./selectors/base";
@@ -31,6 +32,7 @@ import { AutoSizer } from "react-virtualized/dist/commonjs/AutoSizer";
 import InteractiveBarChart from "./components/InteractiveBarChart";
 import BackgroundBarChart from "./components/barchart";
 import thunk from "redux-thunk";
+import LassoScatteplot from "./components/lassoScatteplot";
 
 // ---- consts ----//
 const colors = [
@@ -46,15 +48,18 @@ const colors = [
 //  ----  Redux Utility Functions   ---- //
 const mapDispatchToProps = {
   loadData,
+  loadTSNE,
   updateBarchartValue,
   updateBarchartValueEnd,
   updateInstanceId,
   clickPredictionButton,
-  updateAndFetch,
+  updateAndFetchData,
+  updateAndFetchTSNE,
   updateCounterfactualSwitchValue
 };
 
 const mapStateToProps = state => ({
+  tsneData: state.tsneData,
   data: state.data,
   updatedData: state.updatedData,
   currentUpdatedData: state.currentUpdatedData,
@@ -78,9 +83,10 @@ class App extends Component {
     const {
       selectedInstanceId,
       currentUpdatedData,
-      updateAndFetch
+      updateAndFetchData,
+      updateAndFetchTSNE
     } = this.props;
-    updateAndFetch(
+    updateAndFetchData(
       JSON.stringify({
         instanceId: selectedInstanceId,
         // featureIdx: [1, 8, 2],
@@ -88,13 +94,15 @@ class App extends Component {
         updatedData: currentUpdatedData
       })
     );
+
+    updateAndFetchTSNE({});
   }
 
   handleClickPredictionButton = () => {
     const {
       selectedInstanceId,
       currentUpdatedData,
-      updateAndFetch
+      updateAndFetchData
     } = this.props;
     const data = JSON.stringify({
       instanceId: selectedInstanceId,
@@ -102,11 +110,12 @@ class App extends Component {
       featureIdx: [1, 30, 8, 2, 5, 21],
       updatedData: currentUpdatedData
     });
-    updateAndFetch(data);
+    updateAndFetchData(data);
   };
 
   render() {
     const {
+      tsneData,
       data,
       updatedData,
       currentUpdatedData,
@@ -128,6 +137,8 @@ class App extends Component {
     if (
       !data ||
       data.length === 0 ||
+      !tsneData ||
+      tsneData.length === 0 ||
       counterfactual.length === 0 ||
       !currentUpdatedData ||
       currentUpdatedData.length === 0 ||
@@ -138,6 +149,13 @@ class App extends Component {
 
     const featureCnt = yLabel.length;
     const featureBarchartGridDivision = "1fr ".repeat(featureCnt);
+    // console.log("showCounterfactual", showCounterfactual);
+    // console.log(updateCounterfactualSwitchValue);
+
+    let tsneDataDeepCopy = JSON.parse(JSON.stringify(tsneData));
+    tsneDataDeepCopy.forEach((d, i) => {
+      tsneDataDeepCopy[i]["highlight"] = 0;
+    });
 
     return (
       <div className="App">
@@ -203,7 +221,7 @@ class App extends Component {
                             color="primary"
                           />
                         }
-                        label=" Show Counterfactual"
+                        label="Show Counterfactual"
                       />
                     </div>
                   </div>
@@ -327,10 +345,33 @@ class App extends Component {
             >
               <div
                 className="tsne-view-container"
-                style={{ border: "solid #ccc 1px" }}
+                style={{
+                  border: "solid #ccc 1px",
+                  display: "grid",
+                  gridGap: "5px",
+                  gridTemplateRows: "80px auto"
+                }}
               >
-                <div className="tsne-title-container">{"2D Projection"}</div>
+                <h3 style={{ color: "#666" }} className="tsne-title">
+                  2D Projection
+                </h3>
+                <div className="lassoscatterplot">
+                  <AutoSizer>
+                    {({ tsneWidth, tsneHeight }) => (
+                      <LassoScatteplot
+                        width={tsneWidth}
+                        height={tsneHeight}
+                        data={tsneDataDeepCopy}
+                        id={"id"}
+                        dotSize={5}
+                        colorby={"label"}
+                        highlightby={"highlight"}
+                      />
+                    )}
+                  </AutoSizer>
+                </div>
               </div>
+
               <div
                 className="counterfactual-view-container"
                 style={{ border: "solid #ccc 1px" }}

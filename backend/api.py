@@ -1,5 +1,5 @@
 # Author: Chuan Wang
-from json import loads
+import json
 import pandas as pd
 from rnn.biLSTM_inference import biLSTM_inference
 from torch import from_numpy
@@ -30,7 +30,7 @@ def numpyData2Json(input, featureIdx):
     featuresDf.columns = featureIdx
     featuresDf['time'] = featuresDf.index
 
-    return loads(featuresDf.round(2).to_json(orient='records'))
+    return json.loads(featuresDf.round(2).to_json(orient='records'))
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -93,6 +93,14 @@ def predict():
         'updated': numpyData2Json(updatedInput, featureIdx)
     }
     return jsonify(obj)
+
+
+@app.route("/tsne", methods=["POST"])
+def tsne():
+    tsneFile = './data/mimic/tsne4vis.json'
+    with open(tsneFile) as json_file:
+        tsneData = json.load(json_file)
+        return jsonify(tsneData)
 
 
 if __name__ == "__main__":

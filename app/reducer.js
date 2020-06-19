@@ -1,6 +1,7 @@
 import { handleActions } from "redux-actions";
 import {
   LOAD_DATA,
+  LOAD_TSNE,
   UPDATE_BARCHART_VALUE,
   UPDATE_BARCHART_VALUE_END,
   UPDATE_INSTANCE_ID,
@@ -10,6 +11,7 @@ import {
 // ----  Reducers ---- // (reduce to new state)
 // Redux root state tree
 const DEFAULT_STATE = {
+  tsneData: [],
   data: [],
   updatedData: [],
   currentUpdatedData: [],
@@ -21,6 +23,14 @@ const DEFAULT_STATE = {
   xName: null,
   yName: [],
   yLabel: []
+};
+
+const handleLoadTSNEdata = (state, { payload }) => {
+  // console.log("handleLodTSNEdata payload", payload);
+  return {
+    ...state,
+    tsneData: payload
+  };
 };
 
 const handleLoadData = (state, { payload }) => {
@@ -83,7 +93,7 @@ const handleUpdateInstanceId = (state, { payload }) => {
 };
 
 const handleUpdateCounterfactualSwitchValue = (state, { payload }) => {
-  // console.log("handleUpdateCounterfactualSwitchValue", payload);
+  console.log("handleUpdateCounterfactualSwitchValue", payload);
   // this.state.updatedData;
   return {
     ...state,
@@ -95,6 +105,7 @@ const handleUpdateCounterfactualSwitchValue = (state, { payload }) => {
 export default handleActions(
   {
     [LOAD_DATA]: handleLoadData,
+    [LOAD_TSNE]: handleLoadTSNEdata,
     [UPDATE_BARCHART_VALUE]: handleUpdateBarchartValue,
     [UPDATE_BARCHART_VALUE_END]: handleUpdateBarchartValueEnd,
     [UPDATE_INSTANCE_ID]: handleUpdateInstanceId,
