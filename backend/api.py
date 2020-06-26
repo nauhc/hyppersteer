@@ -16,6 +16,8 @@ best_epoch = 46
 best_accuracy = 0.96
 filepath = './data/mimic/'
 
+dataset = load(filepath + 'unique_data/uniqDataLabelsIds')
+
 
 def jsonData2numpy():
     return None
@@ -38,23 +40,34 @@ def index():
     return jsonify({'abc': 'ddd', 'bbd': 'ccc'})
 
 
+@app.route("/pdplot", methods=["POST"])
+def pdplot():
+    return jsonify({'abc': 'ddd', 'bbd': 'ccc'})
+
+
 @app.route("/predict", methods=["POST"])
 def predict():
-
-    # data10 = load(filepath + 'random10_data.npy')
-    # labels10 = load(filepath + 'random10_labels.npy')
-    data10 = load(filepath + 'data_6712.npy')
-    labels10 = load(filepath + 'labels_6712.npy')
-    # print('data10', data10[0, :,  [1, 30, 8, 2, 5, 21]])
-
-    # get updated input from frontend
     d = request.get_json()
-    instanceId = d['instanceId']
+    instanceId = int(d['instanceId'])
     featureIdx = d['featureIdx']
 
-    # input = from_numpy(data10[instanceId])
-    input = from_numpy(data10[0])
-    counterfactual = from_numpy(data10[3])
+    print('\n-----', instanceId)
+    # print('\n ---', d['updatedData'])
+
+    # print(dataset['data'].shape)  # (14165, 48, 37)
+    # print(dataset['labels'].shape)  # (14165, 2)
+    # print(dataset['ids'].shape)  # (14165,)
+    data = dataset['data']
+    labels = dataset['labels']
+
+    selectedDatum = data[instanceId]
+    selectedLabel = labels[instanceId]
+
+    # get updated input from frontend
+
+    # input = from_numpy(selectedData[instanceId])
+    input = from_numpy(selectedDatum)
+    counterfactual = from_numpy(data[9009])
     # print(numpyData2Json(input.numpy(), featureIdx))
 
     model = biLSTM_inference(filepath, time, best_epoch, best_accuracy)
@@ -62,7 +75,8 @@ def predict():
 
     # updated input
     updatedInput = copy(input)
-    updatedDataDf = pd.DataFrame(d['updatedData'])
+
+    updatedDataDf = pd.DataFrame(d['data2predict'])
     for column in updatedDataDf.head():
         if (column != "time"):
             updatedInput[:, int(column)] = updatedDataDf[column]

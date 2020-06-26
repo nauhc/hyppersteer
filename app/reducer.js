@@ -18,7 +18,7 @@ const DEFAULT_STATE = {
   showCounterfactual: false,
   counterfactual: [],
   totalInstanceCnt: 1,
-  selectedInstanceId: 0,
+  selectedInstanceId: 6712,
   predictionResult: [],
   xName: null,
   yName: [],
@@ -39,9 +39,9 @@ const handleLoadData = (state, { payload }) => {
   return {
     ...state,
     data: payload.original,
-    updatedData: payload.updated,
+    updatedData: payload.updated, //tmp
+    currentUpdatedData: payload.updated, // values update in frontend
     counterfactual: payload.counterfactual,
-    currentUpdatedData: payload.updated,
     predictionResult: payload.result,
     totalInstanceCnt: payload.instanceCnt,
     xName: payload.xName,
@@ -49,8 +49,9 @@ const handleLoadData = (state, { payload }) => {
     yLabel: payload.yLabel
   };
 };
+
 const handleUpdateBarchartValue = (state, { payload }) => {
-  console.log("handleUpdateBarchartValue", payload);
+  // console.log("handleUpdateBarchartValue", payload);
 
   const currentUpdatedData = state.updatedData.map(o => {
     if (o[payload.xName] === payload.selectedX) {
@@ -84,11 +85,11 @@ const handleUpdateBarchartValueEnd = (state, { payload }) => {
 // };
 
 const handleUpdateInstanceId = (state, { payload }) => {
-  console.log("handleUpdateInstanceId", payload);
+  // console.log("handleUpdateInstanceId", payload);
   // this.state.updatedData;
   return {
     ...state,
-    selectedInstanceId: payload.target.value
+    selectedInstanceId: payload
   };
 };
 

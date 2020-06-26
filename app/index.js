@@ -12,6 +12,7 @@ import { arrInRange } from "./utils";
 import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
@@ -91,7 +92,7 @@ class App extends Component {
         instanceId: selectedInstanceId,
         // featureIdx: [1, 8, 2],
         featureIdx: [1, 30, 8, 2, 5, 21],
-        updatedData: currentUpdatedData
+        data2predict: []
       })
     );
 
@@ -104,20 +105,37 @@ class App extends Component {
       currentUpdatedData,
       updateAndFetchData
     } = this.props;
+    // console.log("handleClickPredictionButton id", selectedInstanceId);
     const data = JSON.stringify({
       instanceId: selectedInstanceId,
       // featureIdx: [1, 8, 2],
       featureIdx: [1, 30, 8, 2, 5, 21],
-      updatedData: currentUpdatedData
+      data2predict: currentUpdatedData
     });
     updateAndFetchData(data);
+  };
+
+  handleTextfieldUpdate = e => {
+    const { currentUpdatedData, updateAndFetchData } = this.props;
+
+    if (e.key === "Enter") {
+      this.props.updateInstanceId(e.target.value);
+
+      const data = JSON.stringify({
+        instanceId: e.target.value,
+        // featureIdx: [1, 8, 2],
+        featureIdx: [1, 30, 8, 2, 5, 21],
+        data2predict: []
+      });
+      // console.log("enter", data);
+      updateAndFetchData(data);
+    }
   };
 
   render() {
     const {
       tsneData,
       data,
-      updatedData,
       currentUpdatedData,
       showCounterfactual,
       updateCounterfactualSwitchValue,
@@ -146,6 +164,8 @@ class App extends Component {
     ) {
       return null;
     }
+
+    console.log("data", data);
 
     const featureCnt = yLabel.length;
     const featureBarchartGridDivision = "1fr ".repeat(featureCnt);
@@ -226,21 +246,12 @@ class App extends Component {
                     </div>
                   </div>
                   <div className="instance-selector-container">
-                    <InputLabel id="select-text">Patient</InputLabel>
-                    <Select
-                      labelId="instance-select-label"
-                      id="instance-simple-select"
-                      value={selectedInstanceId}
-                      onChange={updateInstanceId}
-                    >
-                      {arrInRange(totalInstanceCnt).map(i => {
-                        return (
-                          <MenuItem key={i} value={i}>
-                            {i}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
+                    <TextField
+                      id="outlined-basic"
+                      label="Instance ID"
+                      variant="outlined"
+                      onKeyPress={this.handleTextfieldUpdate}
+                    />
                   </div>
                 </div>
                 <div
@@ -340,7 +351,7 @@ class App extends Component {
               style={{
                 display: "grid",
                 gridGap: "5px",
-                gridTemplateRows: "70% auto"
+                gridTemplateRows: "65% auto"
               }}
             >
               <div
