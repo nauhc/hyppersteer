@@ -75,7 +75,8 @@ def predict():
 
     # updated input
     updatedInput = copy(input)
-
+    # d['data2predict'] is empty [] at load and when inputing text id
+    # d['data2predict'] has values when updating barchart values
     updatedDataDf = pd.DataFrame(d['data2predict'])
     for column in updatedDataDf.head():
         if (column != "time"):
