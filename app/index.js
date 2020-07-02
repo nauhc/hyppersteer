@@ -176,6 +176,7 @@ class App extends Component {
     tsneDataDeepCopy.forEach((d, i) => {
       tsneDataDeepCopy[i]["highlight"] = 0;
     });
+    tsneDataDeepCopy[selectedInstanceId]["highlight"] = 1;
 
     return (
       <div className="App">
