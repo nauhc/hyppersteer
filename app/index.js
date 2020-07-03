@@ -33,6 +33,7 @@ import {
 import * as utils from "./utils";
 import { AutoSizer } from "react-virtualized/dist/commonjs/AutoSizer";
 import InteractiveBarChart from "./components/InteractiveBarChart";
+import SimpleBarChart from "./components/simpleBarChart";
 import BackgroundBarChart from "./components/barchart";
 import thunk from "redux-thunk";
 import LassoScatteplot from "./components/lassoScatteplot";
@@ -210,114 +211,115 @@ class App extends Component {
             className="instance-prediction-tsne-container"
             style={{
               display: "grid",
-              gridGap: "10px",
-              gridTemplateColumns: "auto 700px"
+              gridGap: "5px",
+              gridTemplateColumns: "60% 40%"
             }}
           >
             <div
-              className="instance-prediction"
+              className="instances"
               style={{
                 display: "grid",
                 gridGap: "5px",
-                gridTemplateColumns: "80% 20%"
+                gridTemplateRows: "50px auto",
+                border: "solid #ccc 1px"
               }}
             >
               <div
-                className="instances"
+                className="title-n-selector-container"
                 style={{
                   display: "grid",
                   gridGap: "5px",
-                  gridTemplateRows: "50px auto",
-                  border: "solid #ccc 1px"
+                  gridTemplateColumns: "20% 50% auto"
                 }}
               >
-                <div
-                  className="title-n-selector-container"
-                  style={{
-                    display: "grid",
-                    gridGap: "5px",
-                    gridTemplateColumns: "20% 50% auto"
-                  }}
-                >
-                  <div className="instance-title-container">
-                    {"Instance Features"}
-                  </div>
-                  <div className="switch-container">
-                    <div className="counterfactual-switch">
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={showCounterfactual}
-                            onChange={(e, v) =>
-                              updateCounterfactualSwitchValue(v)
-                            }
-                            name="counterfactualSwitch"
-                            color="primary"
-                          />
-                        }
-                        label="Show Counterfactual"
-                      />
-                    </div>
-                  </div>
-                  <div className="instance-selector-container">
-                    <TextField
-                      id="outlined-basic"
-                      label="Instance ID"
-                      variant="outlined"
-                      onKeyPress={this.handleTextfieldUpdate}
+                <div className="instance-title-container">
+                  {"Instance Features"}
+                </div>
+                <div className="switch-container">
+                  <div className="counterfactual-switch">
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={showCounterfactual}
+                          onChange={(e, v) =>
+                            updateCounterfactualSwitchValue(v)
+                          }
+                          name="counterfactualSwitch"
+                          color="primary"
+                        />
+                      }
+                      label="Show Counterfactual"
                     />
                   </div>
                 </div>
-                <div
-                  className="barcharts-container"
-                  style={{
-                    display: "grid",
-                    gridTemplateRows: featureBarchartGridDivision
-                  }}
-                >
-                  {arrInRange(yLabel.length).map(i => {
-                    return (
-                      <div key={`div${i}`} className={`barchart${i}`}>
-                        <AutoSizer key={`autosizer-${i}`}>
-                          {({ height, width }) => (
-                            <InteractiveBarChart
-                              key={`ibarchart${i}`}
-                              id={`ibarchart${i}`}
-                              width={width}
-                              height={height}
-                              data={
-                                showCounterfactual
-                                  ? counterfactual
-                                  : currentUpdatedData
-                              }
-                              xName={xName}
-                              yName={yName[i]}
-                              legendLabel={yLabel[i]}
-                              color={showCounterfactual ? colors[1] : colors[0]}
-                              onChangeValue={updateBarchartValue}
-                              onChangeValueEnd={updateBarchartValueEnd}
-                            />
-                          )}
-                        </AutoSizer>
-                      </div>
-                    );
-                  })}
+                <div className="instance-selector-container">
+                  <TextField
+                    id="outlined-basic"
+                    label="Instance ID"
+                    variant="outlined"
+                    onKeyPress={this.handleTextfieldUpdate}
+                  />
                 </div>
               </div>
               <div
-                className="prediction"
+                className="barcharts-container"
+                style={{
+                  display: "grid",
+                  gridTemplateRows: featureBarchartGridDivision
+                }}
+              >
+                {arrInRange(yLabel.length).map(i => {
+                  return (
+                    <div key={`div${i}`} className={`barchart${i}`}>
+                      <AutoSizer key={`autosizer-${i}`}>
+                        {({ height, width }) => (
+                          <InteractiveBarChart
+                            key={`ibarchart${i}`}
+                            id={`ibarchart${i}`}
+                            width={width}
+                            height={height}
+                            data={
+                              showCounterfactual
+                                ? counterfactual
+                                : currentUpdatedData
+                            }
+                            xName={xName}
+                            yName={yName[i]}
+                            legendLabel={yLabel[i]}
+                            color={showCounterfactual ? colors[1] : colors[0]}
+                            onChangeValue={updateBarchartValue}
+                            onChangeValueEnd={updateBarchartValueEnd}
+                          />
+                        )}
+                      </AutoSizer>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div
+              className="prediction-tsne-counterfactual"
+              style={{
+                display: "grid",
+                gridGap: "5px",
+                gridTemplateRows: "70% 30%"
+              }}
+            >
+              <div
+                className="prediction-tsne-container"
                 style={{
                   display: "grid",
                   gridGap: "5px",
-                  gridTemplateRows: "1fr 1fr"
+                  gridTemplateColumns: "45% 65%"
                 }}
               >
                 <div
-                  className="prediction-certainty"
+                  className="prediction"
                   style={{
                     display: "grid",
                     gridGap: "5px",
-                    gridTemplateRows: "50px 15% auto",
+                    gridTemplateRows: "50px 15% 70% auto",
                     border: "solid #ccc 1px"
                   }}
                 >
@@ -350,59 +352,65 @@ class App extends Component {
                 </div>
 
                 <div
-                  className="prediction-confusionMatix"
-                  style={{ border: "solid #ccc 1px" }}
+                  className="tsne-view-container"
+                  style={{
+                    border: "solid #ccc 1px",
+                    display: "grid",
+                    gridGap: "5px",
+                    gridTemplateRows: "80px auto"
+                  }}
                 >
-                  <div className="confMat-title-container">
-                    {"Confusion Matrix"}
+                  <div className="tsne-title">{"2D Projection"}</div>
+                  <div className="lassoscatterplot">
+                    <AutoSizer>
+                      {({ tsneWidth, tsneHeight }) => (
+                        <LassoScatteplot
+                          width={tsneWidth}
+                          height={tsneHeight}
+                          data={tsneDataDeepCopy}
+                          id={"id"}
+                          dotSize={5}
+                          colorby={"label"}
+                          highlightby={"highlight"}
+                        />
+                      )}
+                    </AutoSizer>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="tsne-counterfactual-container"
-              style={{
-                display: "grid",
-                gridGap: "5px",
-                gridTemplateRows: "65% auto"
-              }}
-            >
-              <div
-                className="tsne-view-container"
-                style={{
-                  border: "solid #ccc 1px",
-                  display: "grid",
-                  gridGap: "5px",
-                  gridTemplateRows: "80px auto"
-                }}
-              >
-                <h3 style={{ color: "#666" }} className="tsne-title">
-                  2D Projection
-                </h3>
-                <div className="lassoscatterplot">
-                  <AutoSizer>
-                    {({ tsneWidth, tsneHeight }) => (
-                      <LassoScatteplot
-                        width={tsneWidth}
-                        height={tsneHeight}
-                        data={tsneDataDeepCopy}
-                        id={"id"}
-                        dotSize={5}
-                        colorby={"label"}
-                        highlightby={"highlight"}
-                      />
-                    )}
-                  </AutoSizer>
                 </div>
               </div>
 
               <div
                 className="counterfactual-view-container"
-                style={{ border: "solid #ccc 1px" }}
+                style={{
+                  border: "solid #ccc 1px",
+                  display: "grid",
+                  gridGap: "5px",
+                  gridTemplateRows: "25px auto"
+                }}
               >
                 <div className="counterfactual-title-container">
                   {"Counterfactuals"}
+                </div>
+                <div
+                  className="counterfactual-chart"
+                  style={{
+                    display: "grid",
+                    gridGap: "5px",
+                    gridTemplateRows: "70% 30%"
+                  }}
+                >
+                  <AutoSizer>
+                    {({ height, width }) => (
+                      <SimpleBarChart
+                        width={width}
+                        height={height}
+                        data={counterfactualData}
+                        xName={"idx"}
+                        yName={"dist"}
+                        barSize={25}
+                      />
+                    )}
+                  </AutoSizer>
                 </div>
               </div>
             </div>

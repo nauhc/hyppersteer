@@ -122,6 +122,7 @@ class LassoScatteplot extends React.Component {
       zoom: 0
     };
 
+    console.log("lassoScatteplot width height", width, height);
     // console.log("selectedScatter", selectedScatter);
     // console.log("overlapSelection", overlapSelection);
     if (
