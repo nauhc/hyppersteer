@@ -19,11 +19,13 @@ import Switch from "@material-ui/core/Switch";
 import {
   loadData,
   loadTSNE,
+  loadCounterfactuals,
   updateBarchartValue,
   updateBarchartValueEnd,
   updateInstanceId,
   clickPredictionButton,
   updateAndFetchData,
+  updateAndFetchCounterfactuals,
   updateAndFetchTSNE,
   updateCounterfactualSwitchValue
 } from "./actions";
@@ -50,17 +52,20 @@ const colors = [
 const mapDispatchToProps = {
   loadData,
   loadTSNE,
+  loadCounterfactuals,
   updateBarchartValue,
   updateBarchartValueEnd,
   updateInstanceId,
   clickPredictionButton,
   updateAndFetchData,
   updateAndFetchTSNE,
+  updateAndFetchCounterfactuals,
   updateCounterfactualSwitchValue
 };
 
 const mapStateToProps = state => ({
   tsneData: state.tsneData,
+  counterfactualData: state.counterfactualData,
   data: state.data,
   updatedData: state.updatedData,
   currentUpdatedData: state.currentUpdatedData,
@@ -85,7 +90,8 @@ class App extends Component {
       selectedInstanceId,
       currentUpdatedData,
       updateAndFetchData,
-      updateAndFetchTSNE
+      updateAndFetchTSNE,
+      updateAndFetchCounterfactuals
     } = this.props;
     updateAndFetchData(
       JSON.stringify({
@@ -97,6 +103,9 @@ class App extends Component {
     );
 
     updateAndFetchTSNE({});
+    updateAndFetchCounterfactuals(
+      JSON.stringify({ instanceId: selectedInstanceId })
+    );
   }
 
   handleClickPredictionButton = () => {
@@ -135,6 +144,7 @@ class App extends Component {
   render() {
     const {
       tsneData,
+      counterfactualData,
       data,
       currentUpdatedData,
       showCounterfactual,
@@ -157,6 +167,8 @@ class App extends Component {
       data.length === 0 ||
       !tsneData ||
       tsneData.length === 0 ||
+      !counterfactualData ||
+      counterfactualData.length === 0 ||
       counterfactual.length === 0 ||
       !currentUpdatedData ||
       currentUpdatedData.length === 0 ||
@@ -166,6 +178,7 @@ class App extends Component {
     }
 
     console.log("data", data);
+    console.log("counterfactualData", counterfactualData);
 
     const featureCnt = yLabel.length;
     const featureBarchartGridDivision = "1fr ".repeat(featureCnt);

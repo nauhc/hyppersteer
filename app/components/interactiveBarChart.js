@@ -53,6 +53,7 @@ class InteractiveBarChart extends React.Component {
   componentDidUpdate() {
     const id = `${this.props.id}-y-axis`;
     const yAxis = document.getElementById(id);
+
     const yAxisHeight = yAxis.attributes.height.value;
     this.setState({
       yAxisHeight
