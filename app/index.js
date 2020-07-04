@@ -126,7 +126,11 @@ class App extends Component {
   };
 
   handleTextfieldUpdate = e => {
-    const { currentUpdatedData, updateAndFetchData } = this.props;
+    const {
+      currentUpdatedData,
+      updateAndFetchData,
+      updateAndFetchCounterfactuals
+    } = this.props;
 
     if (e.key === "Enter") {
       this.props.updateInstanceId(e.target.value);
@@ -139,6 +143,9 @@ class App extends Component {
       });
       // console.log("enter", data);
       updateAndFetchData(data);
+      updateAndFetchCounterfactuals(
+        JSON.stringify({ instanceId: e.target.value })
+      );
     }
   };
 
@@ -179,7 +186,6 @@ class App extends Component {
     }
 
     console.log("data", data);
-    console.log("counterfactualData", counterfactualData);
 
     const featureCnt = yLabel.length;
     const featureBarchartGridDivision = "1fr ".repeat(featureCnt);
@@ -303,7 +309,7 @@ class App extends Component {
               style={{
                 display: "grid",
                 gridGap: "5px",
-                gridTemplateRows: "70% 30%"
+                gridTemplateRows: "65% 35%"
               }}
             >
               <div

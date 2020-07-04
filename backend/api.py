@@ -42,13 +42,10 @@ def index():
 
 @app.route("/counterfactual", methods=["POST"])
 def counterfactual():
-
     d = request.get_json()
     instanceId = int(d['instanceId'])
-    print('\n counterfactual instanceId', instanceId)
 
     arr = load(filepath + 'counterfactuals/all_counterfactuals20')
-    print('\ncounterfactual data', arr.shape)
 
     # get counterfactuals for selected data
     jsonObjArr = []
