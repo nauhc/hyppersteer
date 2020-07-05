@@ -52,7 +52,7 @@ def counterfactual():
     for ctfct in arr[instanceId]:
         jsonObjArr.append({
             'idx': ctfct[0],
-            'dist': ctfct[1]
+            'similarity': 1 - ctfct[1]
         })
 
     return jsonify(jsonObjArr)

@@ -202,7 +202,7 @@ class App extends Component {
       <div className="App">
         <div className="header-container">
           <div className="header-text-container">
-            {"Sequence Outcome Prediction with RNN"}
+            {"Sequence What-If Prediction with RNN"}
           </div>
         </div>
         <div
@@ -218,7 +218,7 @@ class App extends Component {
             style={{
               display: "grid",
               gridGap: "5px",
-              gridTemplateColumns: "60% 40%"
+              gridTemplateColumns: "60% 39.8%"
             }}
           >
             <div
@@ -309,7 +309,7 @@ class App extends Component {
               style={{
                 display: "grid",
                 gridGap: "5px",
-                gridTemplateRows: "65% 35%"
+                gridTemplateRows: "63% 36.5%"
               }}
             >
               <div
@@ -317,7 +317,7 @@ class App extends Component {
                 style={{
                   display: "grid",
                   gridGap: "5px",
-                  gridTemplateColumns: "45% 65%"
+                  gridTemplateColumns: "45% 54.5%"
                 }}
               >
                 <div
@@ -363,7 +363,7 @@ class App extends Component {
                     border: "solid #ccc 1px",
                     display: "grid",
                     gridGap: "5px",
-                    gridTemplateRows: "80px auto"
+                    gridTemplateRows: "50px auto"
                   }}
                 >
                   <div className="tsne-title">{"2D Projection"}</div>
@@ -412,7 +412,7 @@ class App extends Component {
                         height={height}
                         data={counterfactualData}
                         xName={"idx"}
-                        yName={"dist"}
+                        yName={"similarity"}
                         barSize={25}
                       />
                     )}

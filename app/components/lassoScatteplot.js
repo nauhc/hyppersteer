@@ -7,8 +7,8 @@ import * as d3 from "d3";
 
 const defaultProps = {
   id: "id",
-  width: 700,
-  height: 700,
+  width: 600,
+  height: 600,
   data: [],
   dotSize: 2,
   colorby: " ",
@@ -145,7 +145,13 @@ class LassoScatteplot extends React.Component {
     });
 
     return (
-      <div className="lasso-scatterplot-view">
+      <div
+        className="lasso-scatterplot-view"
+        style={{
+          width: { width },
+          height: { height }
+        }}
+      >
         <div id="lasso-scatterplot">
           <svg width={width} height={height} />
         </div>
