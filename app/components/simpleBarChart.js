@@ -17,6 +17,7 @@ const defaultProps = {
   data: [],
   xName: null,
   yName: null,
+  yDomain: [],
   barSize: 10,
   color: "#83a6ed",
   bgColor: "#ddd"
@@ -35,6 +36,7 @@ class SimpleBarChart extends React.Component {
       data,
       xName,
       yName,
+      yDomain,
       barSize,
       color,
       bgColor
@@ -53,7 +55,7 @@ class SimpleBarChart extends React.Component {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey={xName} />
-        <YAxis />
+        <YAxis domain={yDomain.length === 0 ? [0, 1] : [0, "dataMax"]} />
         <Tooltip />
         <Legend />
         <Bar barSize={barSize} dataKey={yName} fill={color} />
