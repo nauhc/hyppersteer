@@ -7,7 +7,7 @@ import {
   UPDATE_BARCHART_VALUE,
   UPDATE_BARCHART_VALUE_END,
   UPDATE_INSTANCE_ID,
-  UPDATE_COUNTERFACTUAL_SWITCH_VALUE
+  UPDATE_COUNTERFACTUAL_SWITCH_VALUE,
 } from "./actions";
 
 // ----  Reducers ---- // (reduce to new state)
@@ -27,14 +27,14 @@ const DEFAULT_STATE = {
   predictionResult: [],
   xName: null,
   yName: [],
-  yLabel: []
+  yLabel: [],
 };
 
 const handleLoadTSNEdata = (state, { payload }) => {
   // console.log("handleLodTSNEdata payload", payload);
   return {
     ...state,
-    tsneData: payload
+    tsneData: payload,
   };
 };
 
@@ -42,7 +42,7 @@ const handleLoadCounterfactualdata = (state, { payload }) => {
   // console.log("handleLoadCounterfactualdata payload", payload);
   return {
     ...state,
-    counterfactualData: payload
+    counterfactualData: payload,
   };
 };
 
@@ -50,7 +50,7 @@ const handleLoadPdplotData = (state, { payload }) => {
   // console.log("handleLoadpdplotData payload", payload);
   return {
     ...state,
-    pdplotData: payload
+    pdplotData: payload,
   };
 };
 
@@ -67,14 +67,14 @@ const handleLoadData = (state, { payload }) => {
     totalInstanceCnt: payload.instanceCnt,
     xName: payload.xName,
     yName: payload.yName,
-    yLabel: payload.yLabel
+    yLabel: payload.yLabel,
   };
 };
 
 const handleUpdateBarchartValue = (state, { payload }) => {
   // console.log("handleUpdateBarchartValue", payload);
 
-  const currentUpdatedData = state.updatedData.map(o => {
+  const currentUpdatedData = state.updatedData.map((o) => {
     if (o[payload.xName] === payload.selectedX) {
       let copy = JSON.parse(JSON.stringify(o));
       copy[payload.yName] += Number(payload.dy.toFixed(2));
@@ -85,14 +85,14 @@ const handleUpdateBarchartValue = (state, { payload }) => {
   });
   return {
     ...state,
-    currentUpdatedData
+    currentUpdatedData,
   };
 };
 
 const handleUpdateBarchartValueEnd = (state, { payload }) => {
   return {
     ...state,
-    updatedData: JSON.parse(JSON.stringify(state.currentUpdatedData))
+    updatedData: JSON.parse(JSON.stringify(state.currentUpdatedData)),
   };
 };
 
@@ -110,7 +110,7 @@ const handleUpdateInstanceId = (state, { payload }) => {
   // this.state.updatedData;
   return {
     ...state,
-    selectedInstanceId: payload
+    selectedInstanceId: payload,
   };
 };
 
@@ -119,7 +119,7 @@ const handleUpdateCounterfactualSwitchValue = (state, { payload }) => {
   // this.state.updatedData;
   return {
     ...state,
-    showCounterfactual: payload
+    showCounterfactual: payload,
   };
 };
 
@@ -133,7 +133,7 @@ export default handleActions(
     [UPDATE_BARCHART_VALUE]: handleUpdateBarchartValue,
     [UPDATE_BARCHART_VALUE_END]: handleUpdateBarchartValueEnd,
     [UPDATE_INSTANCE_ID]: handleUpdateInstanceId,
-    [UPDATE_COUNTERFACTUAL_SWITCH_VALUE]: handleUpdateCounterfactualSwitchValue
+    [UPDATE_COUNTERFACTUAL_SWITCH_VALUE]: handleUpdateCounterfactualSwitchValue,
   },
   DEFAULT_STATE // initial state
 );

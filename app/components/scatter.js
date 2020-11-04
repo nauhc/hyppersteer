@@ -11,7 +11,7 @@ const defaultProps = {
   data: [],
   layout: {
     x: 0, // top-left x
-    y: 0 // top-left y
+    y: 0, // top-left y
   },
   width: DEFAULT_WIDTH,
   height: DEFAULT_HEIGHT,
@@ -20,9 +20,9 @@ const defaultProps = {
   highlightby: " ",
   viewState: {
     offset: [0, 0],
-    zoom: 0
+    zoom: 0,
   },
-  coordinateSystem: COORDINATE_SYSTEM.CARTESIAN //COORDINATE_SYSTEM.IDENTITY
+  coordinateSystem: COORDINATE_SYSTEM.CARTESIAN, //COORDINATE_SYSTEM.IDENTITY
 };
 
 class Scatterplot extends CompositeLayer {
@@ -41,7 +41,7 @@ class Scatterplot extends CompositeLayer {
       colorby,
       highlightby,
       viewState,
-      coordinateSystem
+      coordinateSystem,
     } = this.props;
 
     const scatterLayer = new ScatterplotLayer({
@@ -52,18 +52,18 @@ class Scatterplot extends CompositeLayer {
       stroked: true,
       lineWidthUnits: "pixels",
       getLineWidth: dotSize - 1,
-      getLineColor: d => (d[highlightby] ? [0, 255, 255, 255] : [0, 0, 0, 0]),
-      getPosition: d =>
+      getLineColor: (d) => (d[highlightby] ? [0, 255, 255, 255] : [0, 0, 0, 0]),
+      getPosition: (d) =>
         d[highlightby]
           ? [(d.x - 0.5) * width, y + (d.y - 0.5) * height, 0.9]
           : [(d.x - 0.5) * width, y + (d.y - 0.5) * height, 0.1],
       getRadius: dotSize,
-      getFillColor: d =>
+      getFillColor: (d) =>
         d.color
           ? d[colorby]
             ? [130, 202, 157]
             : [136, 132, 216]
-          : [200, 200, 200]
+          : [200, 200, 200],
     });
 
     return [scatterLayer];

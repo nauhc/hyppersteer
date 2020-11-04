@@ -28,7 +28,7 @@ import {
   updateAndFetchCounterfactuals,
   updateAndFetchTSNE,
   updateAndFetchPdplot,
-  updateCounterfactualSwitchValue
+  updateCounterfactualSwitchValue,
 } from "./actions";
 // import { getData, getMouseOvered, getHighlighted } from "./selectors/base";
 import * as utils from "./utils";
@@ -48,7 +48,7 @@ const colors = [
   "#8dd1e1",
   "#a4de6c",
   "#d0ed57",
-  "#ffc658"
+  "#ffc658",
 ];
 
 //  ----  Redux Utility Functions   ---- //
@@ -64,10 +64,10 @@ const mapDispatchToProps = {
   updateAndFetchTSNE,
   updateAndFetchCounterfactuals,
   updateAndFetchPdplot,
-  updateCounterfactualSwitchValue
+  updateCounterfactualSwitchValue,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tsneData: state.tsneData,
   counterfactualData: state.counterfactualData,
   pdplotData: state.pdplotData,
@@ -81,7 +81,7 @@ const mapStateToProps = state => ({
   yName: state.yName,
   yLabel: state.yLabel,
   selectedInstanceId: state.selectedInstanceId,
-  totalInstanceCnt: state.totalInstanceCnt
+  totalInstanceCnt: state.totalInstanceCnt,
 });
 
 // ---- React Component ---- //
@@ -97,14 +97,14 @@ class App extends Component {
       updateAndFetchData,
       updateAndFetchTSNE,
       updateAndFetchCounterfactuals,
-      updateAndFetchPdplot
+      updateAndFetchPdplot,
     } = this.props;
     updateAndFetchData(
       JSON.stringify({
         instanceId: selectedInstanceId,
         // featureIdx: [1, 8, 2],
         featureIdx: [1, 30, 8, 2, 5, 21],
-        data2predict: []
+        data2predict: [],
       })
     );
 
@@ -119,23 +119,23 @@ class App extends Component {
     const {
       selectedInstanceId,
       currentUpdatedData,
-      updateAndFetchData
+      updateAndFetchData,
     } = this.props;
     // console.log("handleClickPredictionButton id", selectedInstanceId);
     const data = JSON.stringify({
       instanceId: selectedInstanceId,
       // featureIdx: [1, 8, 2],
       featureIdx: [1, 30, 8, 2, 5, 21],
-      data2predict: currentUpdatedData
+      data2predict: currentUpdatedData,
     });
     updateAndFetchData(data);
   };
 
-  handleTextfieldUpdate = e => {
+  handleTextfieldUpdate = (e) => {
     const {
       currentUpdatedData,
       updateAndFetchData,
-      updateAndFetchCounterfactuals
+      updateAndFetchCounterfactuals,
     } = this.props;
 
     if (e.key === "Enter") {
@@ -145,7 +145,7 @@ class App extends Component {
         instanceId: e.target.value,
         // featureIdx: [1, 8, 2],
         featureIdx: [1, 30, 8, 2, 5, 21],
-        data2predict: []
+        data2predict: [],
       });
       // console.log("enter", data);
       updateAndFetchData(data);
@@ -174,7 +174,7 @@ class App extends Component {
       updateBarchartValueEnd,
       selectedInstanceId,
       updateInstanceId,
-      clickPredictionButton
+      clickPredictionButton,
     } = this.props;
 
     if (
@@ -219,7 +219,7 @@ class App extends Component {
           style={{
             display: "grid",
             gridGap: "5px",
-            gridTemplateRows: "70% 30%"
+            gridTemplateRows: "70% 30%",
           }}
         >
           <div
@@ -227,7 +227,7 @@ class App extends Component {
             style={{
               display: "grid",
               gridGap: "5px",
-              gridTemplateColumns: "60% 39.8%"
+              gridTemplateColumns: "60% 39.8%",
             }}
           >
             <div
@@ -236,7 +236,7 @@ class App extends Component {
                 display: "grid",
                 gridGap: "5px",
                 gridTemplateRows: "50px auto",
-                border: "solid #ccc 1px"
+                border: "solid #ccc 1px",
               }}
             >
               <div
@@ -244,7 +244,7 @@ class App extends Component {
                 style={{
                   display: "grid",
                   gridGap: "5px",
-                  gridTemplateColumns: "20% 50% auto"
+                  gridTemplateColumns: "20% 50% auto",
                 }}
               >
                 <div className="instance-title-container">
@@ -280,10 +280,10 @@ class App extends Component {
                 className="barcharts-container"
                 style={{
                   display: "grid",
-                  gridTemplateRows: featureBarchartGridDivision
+                  gridTemplateRows: featureBarchartGridDivision,
                 }}
               >
-                {arrInRange(yLabel.length).map(i => {
+                {arrInRange(yLabel.length).map((i) => {
                   return (
                     <div key={`div${i}`} className={`barchart${i}`}>
                       <AutoSizer key={`autosizer-${i}`}>
@@ -301,7 +301,15 @@ class App extends Component {
                             xName={xName}
                             yName={yName[i]}
                             legendLabel={yLabel[i]}
-                            color={showCounterfactual ? colors[1] : colors[0]}
+                            color={
+                              tsneData[selectedInstanceId].label
+                                ? showCounterfactual
+                                  ? colors[0]
+                                  : colors[1]
+                                : showCounterfactual
+                                ? colors[1]
+                                : colors[0]
+                            }
                             onChangeValue={updateBarchartValue}
                             onChangeValueEnd={updateBarchartValueEnd}
                           />
@@ -318,7 +326,7 @@ class App extends Component {
               style={{
                 display: "grid",
                 gridGap: "5px",
-                gridTemplateRows: "63% 36.5%"
+                gridTemplateRows: "63% 36.5%",
               }}
             >
               <div
@@ -326,7 +334,7 @@ class App extends Component {
                 style={{
                   display: "grid",
                   gridGap: "5px",
-                  gridTemplateColumns: "45% 54.5%"
+                  gridTemplateColumns: "45% 54.5%",
                 }}
               >
                 <div
@@ -335,7 +343,7 @@ class App extends Component {
                     display: "grid",
                     gridGap: "5px",
                     gridTemplateRows: "50px 15% 70% auto",
-                    border: "solid #ccc 1px"
+                    border: "solid #ccc 1px",
                   }}
                 >
                   <div className="certainty-title-container">
@@ -372,7 +380,7 @@ class App extends Component {
                     border: "solid #ccc 1px",
                     display: "grid",
                     gridGap: "5px",
-                    gridTemplateRows: "50px auto"
+                    gridTemplateRows: "50px auto",
                   }}
                 >
                   <div className="tsne-title">{"2D Projection"}</div>
@@ -384,7 +392,7 @@ class App extends Component {
                           height={tsneHeight}
                           data={tsneDataDeepCopy}
                           id={"id"}
-                          dotSize={5}
+                          dotSize={3}
                           colorby={"label"}
                           highlightby={"highlight"}
                         />
@@ -400,7 +408,7 @@ class App extends Component {
                   border: "solid #ccc 1px",
                   display: "grid",
                   gridGap: "5px",
-                  gridTemplateRows: "25px auto"
+                  gridTemplateRows: "25px auto",
                 }}
               >
                 <div className="counterfactual-title-container">
@@ -411,7 +419,7 @@ class App extends Component {
                   style={{
                     display: "grid",
                     gridGap: "5px",
-                    gridTemplateRows: "70% 30%"
+                    gridTemplateRows: "70% 30%",
                   }}
                 >
                   <AutoSizer>
@@ -437,7 +445,7 @@ class App extends Component {
               border: "solid #ccc 1px",
               display: "grid",
               gridGap: "5px",
-              gridTemplateRows: "25px auto"
+              gridTemplateRows: "25px auto",
             }}
           >
             <div className="SPD-title-container">
@@ -465,10 +473,7 @@ class App extends Component {
 
 // ---- Link Redux to React ---- //
 const store = createStore(reducer, applyMiddleware(thunk));
-const AppContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
 
 // ---- Render! ---- //
 ReactDOM.render(

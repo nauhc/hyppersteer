@@ -7,20 +7,20 @@ import * as d3 from "d3";
 
 const defaultProps = {
   id: "id",
-  width: 600,
-  height: 600,
+  width: 480,
+  height: 480,
   data: [],
   dotSize: 2,
   colorby: " ",
   highlightby: " ",
   overlapSelection: [], // for other filtering method, overlap with lasso selection
-  onLassoSelectPoints: () => {}
+  onLassoSelectPoints: () => {},
 };
 
 class LassoScatteplot extends React.Component {
   state = {
     scatter: this.props.data,
-    selectedScatter: Array.from(new Array(this.props.data.length), i => true)
+    selectedScatter: Array.from(new Array(this.props.data.length), (i) => true),
   };
 
   componentDidMount() {
@@ -66,7 +66,7 @@ class LassoScatteplot extends React.Component {
       nodesInView.push({
         x: scatter[i].x * width,
         y: scatter[i].y * height,
-        id: scatter[i][id]
+        id: scatter[i][id],
       });
     }
 
@@ -74,20 +74,20 @@ class LassoScatteplot extends React.Component {
       width: width,
       height: height,
       nodes: nodesInView,
-      onLassoEnd: selected => {
+      onLassoEnd: (selected) => {
         if (selected.length === 0) {
           this.setState({
             ...this.state,
             selectedScatter: Array.from(
               new Array(nodesInView.length),
-              i => true
-            )
+              (i) => true
+            ),
           });
           // onLassoSelectPoints(nodesInView.map(o => o.id)); // set to all
           onLassoSelectPoints([]); // set to empty if no selection
         } else {
-          const selectedID = selected.map(o => o.id);
-          const selectedScatter = nodesInView.map(s => {
+          const selectedID = selected.map((o) => o.id);
+          const selectedScatter = nodesInView.map((s) => {
             if (selectedID.indexOf(s.id) > -1) {
               return true;
             }
@@ -96,11 +96,11 @@ class LassoScatteplot extends React.Component {
 
           this.setState({
             ...this.state,
-            selectedScatter
+            selectedScatter,
           });
           onLassoSelectPoints(selectedID);
         }
-      }
+      },
     });
     this.lasso.begin();
   };
@@ -113,13 +113,13 @@ class LassoScatteplot extends React.Component {
       dotSize,
       colorby,
       highlightby,
-      overlapSelection
+      overlapSelection,
     } = this.props;
     const { selectedScatter } = this.state;
     const glView = new OrthographicView();
     const viewState = {
       offset: [width / 2, height / 2],
-      zoom: 0
+      zoom: 0,
     };
 
     console.log("lassoScatteplot width height", width, height);
@@ -140,7 +140,7 @@ class LassoScatteplot extends React.Component {
     const data_selection = data.map((d, i) => {
       return {
         ...d,
-        color: selectionIntersection[i]
+        color: selectionIntersection[i],
       };
     });
 
@@ -149,7 +149,7 @@ class LassoScatteplot extends React.Component {
         className="lasso-scatterplot-view"
         style={{
           width: { width },
-          height: { height }
+          height: { height },
         }}
       >
         <div id="lasso-scatterplot">
@@ -171,8 +171,8 @@ class LassoScatteplot extends React.Component {
                 data: data_selection,
                 dotSize,
                 colorby,
-                highlightby
-              })
+                highlightby,
+              }),
             ]}
           />
         </div>
