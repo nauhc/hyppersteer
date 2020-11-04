@@ -27,6 +27,7 @@ import {
   updateAndFetchData,
   updateAndFetchCounterfactuals,
   updateAndFetchTSNE,
+  updateAndFetchPdplot,
   updateCounterfactualSwitchValue
 } from "./actions";
 // import { getData, getMouseOvered, getHighlighted } from "./selectors/base";
@@ -35,6 +36,7 @@ import { AutoSizer } from "react-virtualized/dist/commonjs/AutoSizer";
 import InteractiveBarChart from "./components/InteractiveBarChart";
 import SimpleBarChart from "./components/simpleBarChart";
 import BackgroundBarChart from "./components/barchart";
+import PDplot from "./components/pdplot";
 import thunk from "redux-thunk";
 import LassoScatteplot from "./components/lassoScatteplot";
 
@@ -61,12 +63,14 @@ const mapDispatchToProps = {
   updateAndFetchData,
   updateAndFetchTSNE,
   updateAndFetchCounterfactuals,
+  updateAndFetchPdplot,
   updateCounterfactualSwitchValue
 };
 
 const mapStateToProps = state => ({
   tsneData: state.tsneData,
   counterfactualData: state.counterfactualData,
+  pdplotData: state.pdplotData,
   data: state.data,
   updatedData: state.updatedData,
   currentUpdatedData: state.currentUpdatedData,
@@ -92,7 +96,8 @@ class App extends Component {
       currentUpdatedData,
       updateAndFetchData,
       updateAndFetchTSNE,
-      updateAndFetchCounterfactuals
+      updateAndFetchCounterfactuals,
+      updateAndFetchPdplot
     } = this.props;
     updateAndFetchData(
       JSON.stringify({
@@ -107,6 +112,7 @@ class App extends Component {
     updateAndFetchCounterfactuals(
       JSON.stringify({ instanceId: selectedInstanceId })
     );
+    updateAndFetchPdplot(JSON.stringify({ instanceId: selectedInstanceId }));
   }
 
   handleClickPredictionButton = () => {
@@ -153,6 +159,7 @@ class App extends Component {
     const {
       tsneData,
       counterfactualData,
+      pdplotData,
       data,
       currentUpdatedData,
       showCounterfactual,
@@ -177,6 +184,8 @@ class App extends Component {
       tsneData.length === 0 ||
       !counterfactualData ||
       counterfactualData.length === 0 ||
+      !pdplotData ||
+      pdplotData.length === 0 ||
       counterfactual.length === 0 ||
       !currentUpdatedData ||
       currentUpdatedData.length === 0 ||
@@ -185,7 +194,7 @@ class App extends Component {
       return null;
     }
 
-    console.log("data", data);
+    // console.log("data", data);
 
     const featureCnt = yLabel.length;
     const featureBarchartGridDivision = "1fr ".repeat(featureCnt);
@@ -425,11 +434,27 @@ class App extends Component {
           <div
             className="partial-dependence-view-container"
             style={{
-              border: "solid #ccc 1px"
+              border: "solid #ccc 1px",
+              display: "grid",
+              gridGap: "5px",
+              gridTemplateRows: "25px auto"
             }}
           >
             <div className="SPD-title-container">
               {"Sequence Partial Dependence"}
+            </div>
+
+            <div>
+              <AutoSizer>
+                {({ height, width }) => (
+                  <PDplot
+                    width={width}
+                    height={height}
+                    data={pdplotData}
+                    xName={"v"}
+                  />
+                )}
+              </AutoSizer>
             </div>
           </div>
         </div>

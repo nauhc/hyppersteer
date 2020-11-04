@@ -3,6 +3,7 @@ import {
   LOAD_DATA,
   LOAD_TSNE,
   LOAD_COUNTERFACTUALS,
+  LOAD_PDPLOT,
   UPDATE_BARCHART_VALUE,
   UPDATE_BARCHART_VALUE_END,
   UPDATE_INSTANCE_ID,
@@ -14,13 +15,15 @@ import {
 const DEFAULT_STATE = {
   tsneData: [],
   counterfactualData: [],
+  pdplotData: [],
   data: [],
   updatedData: [],
   currentUpdatedData: [],
   showCounterfactual: false,
   counterfactual: [],
   totalInstanceCnt: 1,
-  selectedInstanceId: 6712,
+  // selectedInstanceId: 6712,
+  selectedInstanceId: 4895,
   predictionResult: [],
   xName: null,
   yName: [],
@@ -40,6 +43,14 @@ const handleLoadCounterfactualdata = (state, { payload }) => {
   return {
     ...state,
     counterfactualData: payload
+  };
+};
+
+const handleLoadPdplotData = (state, { payload }) => {
+  // console.log("handleLoadpdplotData payload", payload);
+  return {
+    ...state,
+    pdplotData: payload
   };
 };
 
@@ -118,6 +129,7 @@ export default handleActions(
     [LOAD_DATA]: handleLoadData,
     [LOAD_TSNE]: handleLoadTSNEdata,
     [LOAD_COUNTERFACTUALS]: handleLoadCounterfactualdata,
+    [LOAD_PDPLOT]: handleLoadPdplotData,
     [UPDATE_BARCHART_VALUE]: handleUpdateBarchartValue,
     [UPDATE_BARCHART_VALUE_END]: handleUpdateBarchartValueEnd,
     [UPDATE_INSTANCE_ID]: handleUpdateInstanceId,

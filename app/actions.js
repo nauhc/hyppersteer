@@ -5,6 +5,7 @@ import { createAction } from "redux-actions";
 export const LOAD_DATA = "LOAD_DATA";
 export const LOAD_TSNE = "LOAD_TSNE";
 export const LOAD_COUNTERFACTUALS = "LOAD_COUNTERFACTUALS";
+export const LOAD_PDPLOT = "LOAD_PDPLOT";
 export const UPDATE_BARCHART_VALUE = "UPDATE_BARCHART_VALUE";
 export const UPDATE_BARCHART_VALUE_END = "UPDATE_BARCHART_VALUE_END";
 export const CLICK_PREDICTION_BUTTON = "CLICK_PREDICTION_BUTTON";
@@ -18,6 +19,7 @@ export const UPDATE_COUNTERFACTUAL_SWITCH_VALUE =
 export const loadData = createAction(LOAD_DATA);
 export const loadTSNE = createAction(LOAD_TSNE);
 export const loadCounterfactuals = createAction(LOAD_COUNTERFACTUALS);
+export const loadPDplot = createAction(LOAD_PDPLOT);
 export const updateBarchartValue = createAction(UPDATE_BARCHART_VALUE);
 export const updateBarchartValueEnd = createAction(UPDATE_BARCHART_VALUE_END);
 export const clickPredictionButton = createAction(CLICK_PREDICTION_BUTTON);
@@ -78,6 +80,25 @@ export const updateAndFetchCounterfactuals = data => {
       })
       .then(d => {
         dispatch(loadCounterfactuals(d));
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+export const updateAndFetchPdplot = data => {
+  return dispatch => {
+    fetch("http://localhost:5000/pdplot", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: data
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(d => {
+        dispatch(loadPDplot(d));
       })
       .catch(err => console.log(err));
   };

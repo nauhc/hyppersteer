@@ -60,7 +60,14 @@ def counterfactual():
 
 @app.route("/pdplot", methods=["POST"])
 def pdplot():
-    return jsonify({'abc': 'ddd', 'bbd': 'ccc'})
+    d = request.get_json()
+    instanceId = int(d['instanceId'])
+
+    # with open(filepath + 'pdplot/pdp-negs-30-46-47_clusters_ci_0.999.json') as jsonfile:
+    with open(filepath + 'pdplot/pdp-negs-30-46-47_clusters_ci_new.json') as jsonfile:
+        jsonObjArr = json.load(jsonfile)
+
+    return jsonify(jsonObjArr)
 
 
 @app.route("/predict", methods=["POST"])
@@ -85,7 +92,10 @@ def predict():
 
     # input = from_numpy(selectedData[instanceId])
     input = from_numpy(selectedDatum)
-    counterfactual = from_numpy(data[9009])
+    # counterfactual = from_numpy(data[9009]) # 6712
+    # counterfactual = from_numpy(data[5875])  # 6712
+    # counterfactual = from_numpy(data[5947])  # 4895
+    counterfactual = from_numpy(data[12457])  # 4895
     # print(numpyData2Json(input.numpy(), featureIdx))
 
     model = biLSTM_inference(filepath, time, best_epoch, best_accuracy)
