@@ -89,7 +89,7 @@ In the following example, perturbing Patient 6712's Joint Fluid value at the las
 But for a random patient, what features and what time-step to perturb for the desired result?
 Our paper [HypperSteer](https://arxiv.org/abs/2011.02149.pdf) further discusses the counterfactual and partial dependence analysis for hypothetical steering.
 
-Cite our paper if you find the source code or the paper to be inspiring.
+Cite our paper if you find the source code or the paper to be helpful.
 
 ```
 @misc{wang2020hyppersteer,
