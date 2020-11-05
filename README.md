@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <h3 align="center">HypperSteer </h3>
-  <h4 align="center"> Interactive Tool for "What-if" Sequence Outcome Prediction with RNN </h4>
+  <h4 align="center"> An Interactive Tool for Prescriptive Sequence Predictions with RNN </h4>
 </p>
 
 ## Table of Contents
@@ -29,8 +29,6 @@
 - [PyTorch](https://pytorch.org/)
 
 ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
 
 - npm
 
@@ -58,11 +56,11 @@ npm install
 
 ### Quick Start
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps. After installing all dependencies (root directory by default):
+This is an example of how to set up your project locally.
+To get a local copy up and running follow these simple example steps, after installing all dependencies (root directory by default):
 
 ```
-cd ./backend/
+cd backend/
 python3 api.py
 ```
 
@@ -70,6 +68,7 @@ to start the deep learning model server,
 and
 
 ```
+cd (root)
 yarn start
 ```
 
@@ -77,22 +76,20 @@ to start the web-based UI for interactions.
 
 ### Demo
 
-Exploring individual data instances and their outcome prediction results.
-Each dot in the 2D projection view represents an instance with it's class represented by the color.
-Perturbing any feature values at any time-steps and predict with the RNN model.
+HypperSteer helps to explore individual data instances and their prediction results. Each dot in the 2D projection view represents an instance with its class represented by the color. Perturb any feature values at any time-steps and predict with the RNN model.
 
 For the biLSTM model I trained, see [this repo](https://github.com/nauhc/bilstm-many-to-one).
 
-Here showcase the health records of patient 5000 (dead) and patient 7000 (alive).
+In the following example, we train a biLSTM model that uses electronic health records to predict patients' mortality. The following demo showcases the health records of Patient 5000 (<font color = '#8884d8'>dead</font>) and Patient 7000 (<font color='#82ca9d'>alive</font>).
 ![Product Name Screen Shot][product-screenshot]
 
-Perturbing the value of Joint Fluid at the last three time-step alters the mortality prediction of patient 6712 from dead to alive!
+In the following example, perturbing Patient 6712's Joint Fluid value at the last three time-step alters the mortality prediction result from the dead to alive!
 ![Product Name Screen Shot][product-screenshot1]
 
-But how to know what features and what time-step to perturb for a desired result?
-Our paper [HypperSteer](https://arxiv.org/abs/2011.02149.pdf) further discusses the local and global evidences steering such analysis.
+But for a random patient, what features and what time-step to perturb for the desired result?
+Our paper [HypperSteer](https://arxiv.org/abs/2011.02149.pdf) further discusses the counterfactual and partial dependence analysis for hypothetical steering.
 
-Cite our paper if you find the source code or the paper to be helpful.
+Cite our paper if you find the source code or the paper to be inspiring.
 
 ```
 @misc{wang2020hyppersteer,
