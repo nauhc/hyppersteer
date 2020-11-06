@@ -80,11 +80,11 @@ HypperSteer helps to explore individual data instances and their prediction resu
 
 For the biLSTM model I trained, see [this repo](https://github.com/nauhc/bilstm-many-to-one).
 
-In the following example, we train a biLSTM model that uses electronic health records to predict patients' mortality. The following demo showcases the health records of Patient 5000 (<font color = '#8884d8'>dead</font>) and Patient 7000 (<font color='#82ca9d'>alive</font>).
+In the following example, we train a biLSTM model that uses electronic health records to predict patients' mortality. The following demo visualizes the health records of two patients (one <font color = '#8884d8'>dead</font> and one <font color='#82ca9d'>alive</font>).
 
 ![Product Name Screen Shot][product-screenshot]
 
-Here, perturbing Patient 6712's Joint Fluid value at the last three time-step alters the mortality prediction result from the dead to alive!
+Here, perturbing the patient's "joint fluid" values at the last three time-steps alters the mortality prediction result from the dead to alive!
 
 ![Product Name Screen Shot][product-screenshot1]
 
